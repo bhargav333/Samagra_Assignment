@@ -30,11 +30,7 @@ public class WebScraperHelper {
         this.detailsSearchTag = detailsSearchTag;
         this.linksSearchTags = linksSearchTags;
     }
-    /**
-     * This method uses main page url supplied in constructor and retrieves all the links from that page
-     * which are coming under the tags expression supplied as links search tags and then fetches all the meta details for those pages
-     * @return : returns a list of all articles with the details fetched using the links search tag supplied in constructor.
-     */
+
     public CompletableFuture<List<Map<String, String>>> fetchAllLinkMetaDetailsFromPage(){
         List<Map<String, String>> metaDetailsList = new ArrayList<>();
         return CompletableFuture.supplyAsync(()->{
@@ -65,12 +61,7 @@ public class WebScraperHelper {
             return metaDetailsList;
         }).toCompletableFuture();
     }
-    /**
-     * Extracts article details from meta tag using the detailsSearchTag supplied in constructor.
-     * @param url
-     * @return
-     * @throws IOException
-     */
+
     private Map<String, String> getLinkDetails(String url) throws IOException{
         Document doc = Jsoup.parse(new URL(url), pageParseTimeoutMillis);
         Map<String, String> tagDetails = new HashMap<>();
@@ -79,22 +70,13 @@ public class WebScraperHelper {
         });
         return tagDetails;
     }
-    /**
-     * Fetches all the links from the page which matches the criteria for linksSearchTags supplied in constructor
-     * @return
-     * @throws IOException
-     */
+
     private Set<String> getAllLinksFromPage() throws IOException {
         Document doc = Jsoup.parse(new URL(pageUrl), pageParseTimeoutMillis);
         return searchLinkTags(doc, linksSearchTags);
     }
 
-    /**
-     * Extracts the actual link from a tag
-     * @param doc
-     * @param searchTags
-     * @return
-     */
+
     private Set<String> searchLinkTags(Document doc, String searchTags){
         Set<String> links = new HashSet<>();
         //course-list style-scope course-cards
@@ -104,9 +86,9 @@ public class WebScraperHelper {
             links.add(link.attr("abs:href"));
         }
 
-        for(int i = 0; i < links.size(); i++) {
-            LOGGER.error((String) links.toArray()[i]);
-        }
+       // for(int i = 0; i < links.size(); i++) {
+        //    LOGGER.error((String) links.toArray()[i]);
+        //}
         return links;
     }
 }
